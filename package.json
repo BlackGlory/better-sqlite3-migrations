@@ -1,0 +1,45 @@
+{
+  "name": "@blackglory/better-sqlite3-migrations",
+  "version": "0.1.0",
+  "description": "A utility for database migrations with migrations-file and better-sqlite3",
+  "main": "lib/es2018/index.js",
+  "types": "lib/es2018/index.d.ts",
+  "repository": "git@github.com:BlackGlory/better-sqlite3-migrations.git",
+  "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx --quiet src __tests__",
+    "test": "jest --config jest.config.js",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "coverage": "jest --coverage --config jest.config.js",
+    "prepublishOnly": "yarn clean && yarn build",
+    "clean": "rm -rf lib",
+    "build": "yarn build:es2015 && yarn build:es2018",
+    "build:es2015": "tsc --project tsconfig.build.json --target es2015 --outDir lib/es2015 && tscpaths -p tsconfig.build.json -s ./src -o ./lib/es2015",
+    "build:es2018": "tsc --project tsconfig.build.json --target es2018 --outDir lib/es2018 && tscpaths -p tsconfig.build.json -s ./src -o ./lib/es2018",
+    "release": "standard-version"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@types/better-sqlite3": "^5.4.0",
+    "@types/jest": "^26.0.14",
+    "@types/node": "^14.11.10",
+    "@typescript-eslint/eslint-plugin": "^4.4.1",
+    "@typescript-eslint/parser": "^4.4.1",
+    "better-sqlite3": "^7.1.1",
+    "eslint": "^7.11.0",
+    "husky": "^4.3.0",
+    "jest": "^26.5.3",
+    "standard-version": "^9.0.0",
+    "ts-jest": "^26.4.1",
+    "tscpaths": "^0.0.9",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "@blackglory/types": "^0.1.3"
+  },
+  "peerDependencies": {
+    "better-sqlite3": "7.x"
+  }
+}
