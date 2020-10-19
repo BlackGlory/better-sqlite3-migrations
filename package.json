@@ -1,14 +1,14 @@
 {
   "name": "@blackglory/better-sqlite3-migrations",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A utility for database migrations with better-sqlite3",
   "keywords": [
-    "migration"
-  , "migrations"
-  , "better-sqlite3"
-  , "up"
-  , "down"
-  , "sql"
+    "migration",
+    "migrations",
+    "better-sqlite3",
+    "up",
+    "down",
+    "sql"
   ],
   "files": [
     "lib"
