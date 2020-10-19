@@ -1,2 +1,1 @@
-export * from './migrate-to'
-export * from './migration'
+export * from './migrate'
