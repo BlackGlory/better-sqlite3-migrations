@@ -1,7 +1,15 @@
 {
   "name": "@blackglory/better-sqlite3-migrations",
   "version": "0.1.0",
-  "description": "A utility for database migrations with migrations-file and better-sqlite3",
+  "description": "A utility for database migrations with better-sqlite3",
+  "keywords": [
+    "migration"
+  , "migrations"
+  , "better-sqlite3"
+  , "up"
+  , "down"
+  , "sql"
+  ],
   "main": "lib/es2018/index.js",
   "types": "lib/es2018/index.d.ts",
   "repository": "git@github.com:BlackGlory/better-sqlite3-migrations.git",
