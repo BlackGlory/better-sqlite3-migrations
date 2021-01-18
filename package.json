@@ -25,7 +25,7 @@
     "coverage": "jest --coverage --config jest.config.js",
     "prepublishOnly": "yarn clean && yarn build",
     "clean": "rm -rf lib",
-    "build": "yarn build:es2015 && yarn build:es2018",
+    "build": "run-p build:*",
     "build:es2015": "tsc --project tsconfig.build.json --target es2015 --outDir lib/es2015 && tscpaths -p tsconfig.build.json -s ./src -o ./lib/es2015",
     "build:es2018": "tsc --project tsconfig.build.json --target es2018 --outDir lib/es2018 && tscpaths -p tsconfig.build.json -s ./src -o ./lib/es2018",
     "release": "standard-version"
@@ -42,6 +42,7 @@
     "eslint": "^7.11.0",
     "husky": "^4.3.0",
     "jest": "^26.5.3",
+    "npm-run-all": "^4.1.5",
     "standard-version": "^9.0.0",
     "ts-jest": "^26.4.1",
     "tscpaths": "^0.0.9",
