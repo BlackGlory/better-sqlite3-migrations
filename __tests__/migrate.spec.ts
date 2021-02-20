@@ -30,14 +30,21 @@ const migrations: IMigration[] = [
             id   INTEGER PRIMARY KEY
           , name TEXT
           );
+
           INSERT INTO test_backup
-                SELECT id, name FROM test;
+          SELECT id, name
+            FROM test;
+
           DROP TABLE test;
+
           CREATE TABLE test (
-            id
+            id INTEGER PRIMARY KEY
           );
+
           INSERT INTO test
-                SELECT id FROM test_backup;
+          SELECT id
+            FROM test_backup;
+
           DROP TABLE test_backup;
         `)
       })()
