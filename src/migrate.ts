@@ -1,7 +1,7 @@
 import type { Database } from 'better-sqlite3'
 import { isFunction } from '@blackglory/types'
 
-export interface Migration {
+export interface IMigration {
   version: number
   up: string | ((db: Database) => void)
   down: string | ((db: Database) => void)
@@ -9,7 +9,7 @@ export interface Migration {
 
 export function migrate(
   db: Database
-, migrations: Migration[]
+, migrations: IMigration[]
 , targetVersion = getMaximumVersion(migrations)
 ): void {
   let currentVersion: number
@@ -62,7 +62,7 @@ export function migrate(
   }
 }
 
-function getMaximumVersion(migrations: Migration[]): number {
+function getMaximumVersion(migrations: IMigration[]): number {
   return migrations.reduce((max, cur) => Math.max(cur.version, max), 0)
 }
 

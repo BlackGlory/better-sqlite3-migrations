@@ -16,10 +16,8 @@ yarn add @blackglory/better-sqlite3-migrations
 
 ## API
 
-### Migration
-
 ```ts
-interface Migration {
+interface IMigration {
   version: number
   up: string | ((db: Database) => void)
   down: string | ((db: Database) => void)
@@ -29,7 +27,7 @@ interface Migration {
 ### migrate
 
 ```ts
-function migrate(db: Database, migrations: Migration[], targetVersion?: number): void
+function migrate(db: Database, migrations: IMigration[], targetVersion?: number): void
 ```
 
 If targetVersion is `undefined`, then use the maximum version of migrations.

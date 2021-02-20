@@ -1,8 +1,8 @@
 import Database = require('better-sqlite3')
 import type { Database as IDatabase } from 'better-sqlite3'
-import { migrate, Migration } from '@src/migrate'
+import { migrate, IMigration } from '@src/migrate'
 
-const migrations: Migration[] = [
+const migrations: IMigration[] = [
   {
     version: 1
   , up: `
