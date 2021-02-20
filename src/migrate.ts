@@ -1,5 +1,6 @@
 import type { Database } from 'better-sqlite3'
 import { isFunction } from '@blackglory/types'
+import { assert } from '@blackglory/errors'
 
 export interface IMigration {
   version: number
@@ -26,7 +27,7 @@ export function migrate(
     const targetVersion = currentVersion + 1
 
     const migration = migrations.find(x => x.version === targetVersion)
-    if (!migration) throw new Error(`Cannot find migration for version ${targetVersion}`)
+    assert(migration, `Cannot find migration for version ${targetVersion}`)
 
     try {
       if (isFunction(migration.up)) {
@@ -46,7 +47,7 @@ export function migrate(
     const targetVersion = currentVersion - 1
 
     const migration = migrations.find(x => x.version === currentVersion)
-    if (!migration) throw new Error(`Cannot find migration for version ${targetVersion}`)
+    assert(migration, `Cannot find migration for version ${targetVersion}`)
 
     try {
       if (isFunction(migration.down)) {

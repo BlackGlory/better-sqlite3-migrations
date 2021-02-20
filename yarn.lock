@@ -284,6 +284,11 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
+"@blackglory/errors@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@blackglory/errors/-/errors-1.1.2.tgz#0577f01ca13850049efa0dd729e1a26e77e1dc3a"
+  integrity sha512-THXSkTUB5eXSn7Yj01TgizNqw2rRnkNj0t6drNtmGQNJRoh4qLdSD0WUiM6ClGgKTdaBJbAarRqG/6Gn/NjLig==
+
 "@blackglory/types@^0.2.13", "@blackglory/types@^0.2.9":
   version "0.2.14"
   resolved "https://registry.yarnpkg.com/@blackglory/types/-/types-0.2.14.tgz#141956b0cd013161c1d8bf8f63d15d33f40fb240"
