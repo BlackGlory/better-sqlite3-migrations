@@ -107,6 +107,11 @@ function getTableSchema(db: IDatabase, tableName: string): Array<{ name: string,
 }
 
 function getDatabaseTables(db: IDatabase): string[] {
-  const result = db.prepare("SELECT name FROM sqlite_master WHERE type='table';").all()
+  const result = db.prepare(`
+    SELECT name
+      FROM sqlite_master
+     WHERE type='table';
+  `).all()
+
   return result.map(x => x['name'])
 }
