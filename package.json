@@ -64,6 +64,6 @@
     "@blackglory/types": "^0.6.5"
   },
   "peerDependencies": {
-    "better-sqlite3": "7.x"
+    "better-sqlite3": "7"
   }
 }
