@@ -11,17 +11,22 @@ export interface IMigration {
 export function migrate(
   db: Database
 , migrations: IMigration[]
-, targetVersion = getMaximumVersion(migrations)
+, targetVersion: number = getMaximumVersion(migrations)
 ): void {
+  const maxVersion = getMaximumVersion(migrations)
   while (true) {
     const done = db.transaction(() => {
       const currentVersion = getDatabaseVersion(db)
-      if (currentVersion === targetVersion) {
+      if (maxVersion < currentVersion) {
         return true
-      } else if (currentVersion < targetVersion) {
-        upgrade()
       } else {
-        downgrade()
+        if (currentVersion === targetVersion) {
+          return true
+        } else if (currentVersion < targetVersion) {
+          upgrade()
+        } else {
+          downgrade()
+        }
       }
     }).immediate()
 

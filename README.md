@@ -32,6 +32,7 @@ If targetVersion is `undefined`, then use the maximum version of migrations.
 ## FAQ
 ### Can multiple instances migrate in parallel?
 Yes, the `user_version` update is visible to every database connection.
+When the maximum migration version is less than the `user_version` (which means it is an obsolete instance), it will skip the migration.
 
-You may need a proper restart strategy,
+You may need a proper retry strategy,
 because each migration uses `BEGIN IMMEDIATE` to ensure that parallel write transactions fail early.

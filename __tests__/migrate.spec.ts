@@ -53,6 +53,18 @@ const migrations: IMigration[] = [
 ]
 
 describe('migrate(db: Database, migrations: Migration[], targetVersion: number): void', () => {
+  describe('The maximum version of migrations < user_version', () => {
+    it('skip migrations', () => {
+      const db = new Database(':memory:')
+      setDatabaseVersion(db, 999)
+
+      migrate(db, migrations, 2)
+      const versionAfter = getDatabaseVersion(db)
+
+      expect(versionAfter).toBe(999)
+    })
+  })
+
   describe('upgrade', () => {
     it('upgrade', () => {
       const db = new Database(':memory:')
@@ -95,6 +107,10 @@ describe('migrate(db: Database, migrations: Migration[], targetVersion: number):
     })
   })
 })
+
+function setDatabaseVersion(db: IDatabase, version: number): void {
+  db.exec(`PRAGMA user_version = ${version};`)
+}
 
 function getDatabaseVersion(db: IDatabase): number {
   const result = db.prepare('PRAGMA user_version;').get()
