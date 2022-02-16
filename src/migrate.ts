@@ -13,13 +13,19 @@ export function migrate(
 , migrations: IMigration[]
 , targetVersion = getMaximumVersion(migrations)
 ): void {
-  let currentVersion: number
-  while ((currentVersion = getDatabaseVersion(db)) !== targetVersion) {
-    if (currentVersion < targetVersion) {
-      upgrade()
-    } else {
-      downgrade()
-    }
+  while (true) {
+    const done = db.transaction(() => {
+      const currentVersion = getDatabaseVersion(db)
+      if (currentVersion === targetVersion) {
+        return true
+      } else if (currentVersion < targetVersion) {
+        upgrade()
+      } else {
+        downgrade()
+      }
+    }).immediate()
+
+    if (done) break
   }
 
   function upgrade() {
