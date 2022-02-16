@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.8](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.7...v0.1.8) (2022-02-16)
+
+
+### Features
+
+* ensure migrations are run in transactions ([9d0e6a0](https://github.com/BlackGlory/better-sqlite3-migrations/commit/9d0e6a069d08a2e43357e6d807d963d962303d98))
+
 ### [0.1.7](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.6...v0.1.7) (2021-07-03)
 
 ### [0.1.6](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.5...v0.1.6) (2021-03-17)
