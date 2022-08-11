@@ -1,6 +1,7 @@
 import type { Database } from 'better-sqlite3'
 import { isFunction } from '@blackglory/types'
 import { assert } from '@blackglory/errors'
+import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
 export interface IMigration {
   version: number
@@ -8,14 +9,17 @@ export interface IMigration {
   down: string | ((db: Database) => void)
 }
 
-export function migrate(
+export const migrate = withLazyStatic(function (
   db: Database
 , migrations: IMigration[]
 , targetVersion: number = getMaximumVersion(migrations)
 ): void {
   const maxVersion = getMaximumVersion(migrations)
   while (true) {
-    const done = db.transaction(() => {
+    const done = lazyStatic(() => db.transaction((
+      targetVersion: number
+    , maxVersion: number
+    ) => {
       const currentVersion = getDatabaseVersion(db)
       if (maxVersion < currentVersion) {
         return true
@@ -28,7 +32,7 @@ export function migrate(
           downgrade()
         }
       }
-    }).immediate()
+    }), [db]).immediate(targetVersion, maxVersion)
 
     if (done) break
   }
@@ -72,16 +76,16 @@ export function migrate(
     }
     setDatabaseVersion(db, targetVersion)
   }
-}
+})
 
 function getMaximumVersion(migrations: IMigration[]): number {
   return migrations.reduce((max, cur) => Math.max(cur.version, max), 0)
 }
 
-function getDatabaseVersion(db: Database): number {
-  const result = db.prepare('PRAGMA user_version;').get()
+const getDatabaseVersion = withLazyStatic(function(db: Database): number {
+  const result = lazyStatic(() => db.prepare('PRAGMA user_version;'), [db]).get()
   return result['user_version']
-}
+})
 
 function setDatabaseVersion(db: Database, version: number): void {
   // PRAGMA不支持变量

@@ -2874,6 +2874,11 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
+extra-lazy@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/extra-lazy/-/extra-lazy-1.3.1.tgz#f8d74084e8806a6c1906ef292b4d6834e0b35517"
+  integrity sha512-C55Cr/dQWQHdwuMTF+ySNMYqydVclmKdgFHoC/8gTu5Zoe1Nrx6jgArwfZ+7jKU78VjDfhrkGAJ38ucf0lozeQ==
+
 extra-rand@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/extra-rand/-/extra-rand-0.1.1.tgz#e75e71ec96eb2f9b47d2a3c6513b3fb042f05a45"
