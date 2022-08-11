@@ -84,5 +84,6 @@ function getDatabaseVersion(db: Database): number {
 }
 
 function setDatabaseVersion(db: Database, version: number): void {
-  db.prepare(`PRAGMA user_version = ${ version }`).run()
+  // PRAGMA不支持变量
+  db.exec(`PRAGMA user_version = ${ version }`)
 }
