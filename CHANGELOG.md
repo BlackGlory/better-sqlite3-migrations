@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.14](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.13...v0.1.14) (2022-08-11)
+
+
+### Bug Fixes
+
+* lazy ([7584299](https://github.com/BlackGlory/better-sqlite3-migrations/commit/75842997ec949197fec239f7efabec820000f440))
+
 ### [0.1.13](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.12...v0.1.13) (2022-08-11)
 
 ### [0.1.12](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.11...v0.1.12) (2022-08-11)
