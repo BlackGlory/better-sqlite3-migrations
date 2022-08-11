@@ -9,7 +9,12 @@ export interface IMigration {
   down: string | ((db: Database) => void)
 }
 
-export const migrate = withLazyStatic(function (
+export const migrate: (
+  db: Database
+, migrations: IMigration[]
+, targetVersion?: number | undefined
+) => void
+= withLazyStatic(function (
   db: Database
 , migrations: IMigration[]
 , targetVersion: number = getMaximumVersion(migrations)
