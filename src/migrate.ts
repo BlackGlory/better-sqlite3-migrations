@@ -32,55 +32,57 @@ export const migrate: (
         return true
       } else if (currentVersion < targetVersion) {
         upgrade()
+        return false
       } else {
         downgrade()
+        return false
       }
-    }
-
-    function upgrade() {
-      const currentVersion = getDatabaseVersion(db)
-      const targetVersion = currentVersion + 1
-
-      const migration = migrations.find(x => x.version === targetVersion)
-      assert(migration, `Cannot find migration for version ${targetVersion}`)
-
-      try {
-        if (isFunction(migration.up)) {
-          migration.up(db)
-        } else {
-          db.exec(migration.up)
-        }
-      } catch (e) {
-        console.error(`Upgrade from version ${currentVersion} to version ${targetVersion} failed.`)
-        throw e
-      }
-      setDatabaseVersion(db, targetVersion)
-    }
-
-    function downgrade() {
-      const currentVersion = getDatabaseVersion(db)
-      const targetVersion = currentVersion - 1
-
-      const migration = migrations.find(x => x.version === currentVersion)
-      assert(migration, `Cannot find migration for version ${targetVersion}`)
-
-      try {
-        if (isFunction(migration.down)) {
-          migration.down(db)
-        } else {
-          db.exec(migration.down)
-        }
-      } catch (e) {
-        console.error(`Downgrade from version ${currentVersion} to version ${targetVersion} failed.`)
-        throw e
-      }
-      setDatabaseVersion(db, targetVersion)
     }
   }), [db])
 
   while (true) {
     const done = migrate.immediate(targetVersion, maxVersion)
     if (done) break
+  }
+
+  function upgrade() {
+    const currentVersion = getDatabaseVersion(db)
+    const targetVersion = currentVersion + 1
+
+    const migration = migrations.find(x => x.version === targetVersion)
+    assert(migration, `Cannot find migration for version ${targetVersion}`)
+
+    try {
+      if (isFunction(migration.up)) {
+        migration.up(db)
+      } else {
+        db.exec(migration.up)
+      }
+    } catch (e) {
+      console.error(`Upgrade from version ${currentVersion} to version ${targetVersion} failed.`)
+      throw e
+    }
+    setDatabaseVersion(db, targetVersion)
+  }
+
+  function downgrade() {
+    const currentVersion = getDatabaseVersion(db)
+    const targetVersion = currentVersion - 1
+
+    const migration = migrations.find(x => x.version === currentVersion)
+    assert(migration, `Cannot find migration for version ${targetVersion}`)
+
+    try {
+      if (isFunction(migration.down)) {
+        migration.down(db)
+      } else {
+        db.exec(migration.down)
+      }
+    } catch (e) {
+      console.error(`Downgrade from version ${currentVersion} to version ${targetVersion} failed.`)
+      throw e
+    }
+    setDatabaseVersion(db, targetVersion)
   }
 })
 
