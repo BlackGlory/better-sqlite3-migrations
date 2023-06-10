@@ -11,7 +11,8 @@
     "sql"
   ],
   "files": [
-    "lib"
+    "lib",
+    "src"
   ],
   "main": "lib/es2018/index.js",
   "types": "lib/es2018/index.d.ts",
