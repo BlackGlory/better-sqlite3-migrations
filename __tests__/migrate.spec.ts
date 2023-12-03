@@ -113,12 +113,20 @@ function setDatabaseVersion(db: IDatabase, version: number): void {
 }
 
 function getDatabaseVersion(db: IDatabase): number {
-  const result = db.prepare('PRAGMA user_version;').get()
+  const result = db.prepare('PRAGMA user_version;').get() as {
+    user_version: number
+  }
   return result['user_version']
 }
 
-function getTableSchema(db: IDatabase, tableName: string): Array<{ name: string, type: string }> {
-  const result = db.prepare(`PRAGMA table_info(${tableName});`).all()
+function getTableSchema(db: IDatabase, tableName: string): Array<{
+  name: string
+  type: string
+}> {
+  const result = db.prepare(`PRAGMA table_info(${tableName});`).all() as Array<{
+    name: string
+    type: string
+  }>
   return result
 }
 
@@ -127,7 +135,7 @@ function getDatabaseTables(db: IDatabase): string[] {
     SELECT name
       FROM sqlite_master
      WHERE type='table';
-  `).all()
+  `).all() as Array<{ name: string }>
 
   return result.map(x => x['name'])
 }

@@ -90,8 +90,8 @@ function getMaximumVersion(migrations: IMigration[]): number {
   return migrations.reduce((max, cur) => Math.max(cur.version, max), 0)
 }
 
-const getDatabaseVersion = withLazyStatic(function(db: Database): number {
-  const result = lazyStatic(() => db.prepare('PRAGMA user_version;'), [db]).get()
+const getDatabaseVersion = withLazyStatic((db: Database): number => {
+  const result = lazyStatic(() => db.prepare('PRAGMA user_version;'), [db]).get() as { user_version: number }
   return result['user_version']
 })
 
