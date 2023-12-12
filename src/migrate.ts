@@ -45,7 +45,7 @@ export const migrate: (
     if (done) break
   }
 
-  function upgrade() {
+  function upgrade(): void {
     const currentVersion = getDatabaseVersion(db)
     const targetVersion = currentVersion + 1
 
@@ -65,7 +65,7 @@ export const migrate: (
     setDatabaseVersion(db, targetVersion)
   }
 
-  function downgrade() {
+  function downgrade(): void {
     const currentVersion = getDatabaseVersion(db)
     const targetVersion = currentVersion - 1
 
