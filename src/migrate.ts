@@ -20,11 +20,13 @@ export const migrate: (
 , targetVersion: number = getMaximumVersion(migrations)
 ): void {
   const maxVersion = getMaximumVersion(migrations)
+
   const migrate = lazyStatic(() => db.transaction((
     targetVersion: number
   , maxVersion: number
-  ) => {
+  ): boolean => {
     const currentVersion = getDatabaseVersion(db)
+
     if (maxVersion < currentVersion) {
       return true
     } else {
