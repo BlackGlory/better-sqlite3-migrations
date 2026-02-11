@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.20...v0.2.0) (2026-02-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **migrate:** Changed the function signature of `migrate`.
+* - CommonJS => ESM
+- Node.js v14 => Node.js v22
+
+### Features
+
+* **migrate:** add the `throwOnNewerVersion` option ([5cbd3ea](https://github.com/BlackGlory/better-sqlite3-migrations/commit/5cbd3eaba3b301b3b8a610bd3bc151dc2dd1751c))
+
+
+* upgrade dependencies ([a76ce87](https://github.com/BlackGlory/better-sqlite3-migrations/commit/a76ce87e176f0a5758c2404371b24cfda357e34c))
+
 ### [0.1.20](https://github.com/BlackGlory/better-sqlite3-migrations/compare/v0.1.19...v0.1.20) (2025-07-21)
 
 
