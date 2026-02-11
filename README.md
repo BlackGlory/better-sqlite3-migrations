@@ -28,15 +28,30 @@ You may need [migration-files].
 
 ### migrate
 ```ts
-function migrate(db: Database, migrations: IMigration[], targetVersion?: number): void
+function migrate(
+  db: Database
+, migrations: IMigration[]
+, options?: {
+    targetVersion?: number
+    throwOnNewerVersion?: boolean = false
+  }
+): void
 ```
 
-If targetVersion is `undefined`, then use the maximum version of migrations.
+If `options.targetVersion` is `undefined`,
+the maximum version of the `migrations` is used.
 
-## FAQ
-### Can multiple instances migrate in parallel?
+When the maximum known migration version is less than the `user_version`,
+it means the current instance is outdated.
+- When `options.throwOnNewerVersion` is `false` (default),
+  it will skip the migration,
+  so your outdated instance continues to run.
+- When `options.throwOnNewerVersion` is `true`,
+  it will throw an error,
+  so your outdated instance fails immediately.
+
+#### Can multiple instances migrate in parallel?
 Yes, the `user_version` update is visible to every database connection.
-When the maximum migration version is less than the `user_version` (which means it is an obsolete instance), it will skip the migration.
 
-You may need a proper retry strategy,
-because each migration uses `BEGIN IMMEDIATE` to ensure that parallel write transactions fail early.
+Each migration uses `BEGIN IMMEDIATE` to ensure that parallel write transactions fail early.
+Therefore, you may need a proper retry strategy.

@@ -1,6 +1,7 @@
-import { describe, test, it, expect } from 'vitest'
+import { describe, test, expect } from 'vitest'
 import Database from 'better-sqlite3'
 import type { Database as IDatabase } from 'better-sqlite3'
+import { getError } from 'return-style'
 import { migrate, IMigration } from '@src/migrate.js'
 
 const migrations: IMigration[] = [
@@ -53,16 +54,33 @@ const migrations: IMigration[] = [
   }
 ]
 
-describe('migrate(db: Database, migrations: Migration[], targetVersion: number): void', () => {
-  describe('The maximum version of migrations < user_version', () => {
-    it('skips migrations', () => {
+describe('migrate', () => {
+  describe('The maximum known migration version < user_version', () => {
+    test('throwOnNewerVersion = false', () => {
       const db = new Database(':memory:')
       setDatabaseVersion(db, 999)
 
-      migrate(db, migrations, 2)
-      const versionAfter = getDatabaseVersion(db)
+      migrate(db, migrations, {
+        targetVersion: 2
+      , throwOnNewerVersion: false
+      })
 
-      expect(versionAfter).toBe(999)
+      const version = getDatabaseVersion(db)
+      expect(version).toBe(999)
+    })
+
+    test('throwOnNewerVersion = true', () => {
+      const db = new Database(':memory:')
+      setDatabaseVersion(db, 999)
+
+      const error = getError(() => migrate(db, migrations, {
+        targetVersion: 2
+      , throwOnNewerVersion: true
+      }))
+
+      expect(error).toBeInstanceOf(Error)
+      const version = getDatabaseVersion(db)
+      expect(version).toBe(999)
     })
   })
 
@@ -70,14 +88,14 @@ describe('migrate(db: Database, migrations: Migration[], targetVersion: number):
     const db = new Database(':memory:')
 
     const versionBefore = getDatabaseVersion(db)
-    migrate(db, migrations, 2)
+    migrate(db, migrations, { targetVersion: 2 })
     const versionAfter = getDatabaseVersion(db)
-    const tables = getDatabaseTables(db)
-    const schema = getTableSchema(db, 'test')
 
     expect(versionBefore).toBe(0)
     expect(versionAfter).toBe(2)
+    const tables = getDatabaseTables(db)
     expect(tables).toEqual(['test'])
+    const schema = getTableSchema(db, 'test')
     expect(schema).toMatchObject([
       {
         name: 'id'
@@ -92,15 +110,15 @@ describe('migrate(db: Database, migrations: Migration[], targetVersion: number):
 
   test('downgrade', () => {
     const db = new Database(':memory:')
-    migrate(db, migrations, 2)
+    migrate(db, migrations, { targetVersion: 2 })
 
     const versionBefore = getDatabaseVersion(db)
-    migrate(db, migrations, 0)
+    migrate(db, migrations, { targetVersion: 0 })
     const versionAfter = getDatabaseVersion(db)
-    const tables = getDatabaseTables(db)
 
     expect(versionBefore).toBe(2)
     expect(versionAfter).toBe(0)
+    const tables = getDatabaseTables(db)
     expect(tables).toEqual([])
   })
 })

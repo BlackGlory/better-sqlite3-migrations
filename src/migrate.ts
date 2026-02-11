@@ -1,6 +1,7 @@
 import type { Database } from 'better-sqlite3'
 import { assert, isFunction } from '@blackglory/prelude'
 import { withLazyStatic, lazyStatic } from 'extra-lazy'
+import { max } from 'extra-utils'
 
 export interface IMigration {
   version: number
@@ -8,15 +9,23 @@ export interface IMigration {
   down: string | ((db: Database) => void)
 }
 
+interface IMigrateOptions {
+  targetVersion?: number
+  throwOnNewerVersion?: boolean
+}
+
 export const migrate: (
   db: Database
 , migrations: IMigration[]
-, targetVersion?: number | undefined
+, options?: IMigrateOptions
 ) => void
 = withLazyStatic(function (
   db: Database
 , migrations: IMigration[]
-, targetVersion: number = getMaximumVersion(migrations)
+, {
+    targetVersion = getMaximumVersion(migrations)
+  , throwOnNewerVersion = false
+  }: IMigrateOptions = {}
 ): void {
   const maxVersion = getMaximumVersion(migrations)
 
@@ -27,7 +36,11 @@ export const migrate: (
     const currentVersion = getDatabaseVersion(db)
 
     if (maxVersion < currentVersion) {
-      return true
+      if (throwOnNewerVersion) {
+        throw new Error(`Database version ${currentVersion} is higher than the maximum known migration version.`)
+      } else {
+        return true
+      }
     } else {
       if (currentVersion === targetVersion) {
         return true
@@ -51,7 +64,7 @@ export const migrate: (
     const targetVersion = currentVersion + 1
 
     const migration = migrations.find(x => x.version === targetVersion)
-    assert(migration, `Cannot find migration for version ${targetVersion}`)
+    assert(migration, `Cannot find a migration for version ${targetVersion}.`)
 
     try {
       if (isFunction(migration.up)) {
@@ -60,8 +73,10 @@ export const migrate: (
         db.exec(migration.up)
       }
     } catch (e) {
-      console.error(`Upgrade from version ${currentVersion} to version ${targetVersion} failed.`)
-      throw e
+      throw new Error(
+        `Upgrade from version ${currentVersion} to version ${targetVersion} failed.`
+      , { cause: e }
+      )
     }
     setDatabaseVersion(db, targetVersion)
   }
@@ -71,7 +86,7 @@ export const migrate: (
     const targetVersion = currentVersion - 1
 
     const migration = migrations.find(x => x.version === currentVersion)
-    assert(migration, `Cannot find migration for version ${targetVersion}`)
+    assert(migration, `Cannot find a migration for version ${targetVersion}`)
 
     try {
       if (isFunction(migration.down)) {
@@ -80,23 +95,34 @@ export const migrate: (
         db.exec(migration.down)
       }
     } catch (e) {
-      console.error(`Downgrade from version ${currentVersion} to version ${targetVersion} failed.`)
-      throw e
+      throw new Error(
+        `Downgrade from version ${currentVersion} to version ${targetVersion} failed.`
+      , { cause: e }
+      )
     }
     setDatabaseVersion(db, targetVersion)
   }
 })
 
 function getMaximumVersion(migrations: IMigration[]): number {
-  return migrations.reduce((max, cur) => Math.max(cur.version, max), 0)
+  return migrations
+    .map(x => x.version)
+    .reduce(max)
 }
 
 const getDatabaseVersion = withLazyStatic((db: Database): number => {
-  const result = lazyStatic(() => db.prepare('PRAGMA user_version;'), [db]).get() as { user_version: number }
+  const result = lazyStatic(() => db.prepare<
+    []
+  , { user_version: number }
+  >(
+    'PRAGMA user_version'
+  ), [db]).get()
+  assert(result)
+
   return result['user_version']
 })
 
 function setDatabaseVersion(db: Database, version: number): void {
   // PRAGMA不支持变量
-  db.exec(`PRAGMA user_version = ${ version }`)
+  db.exec(`PRAGMA user_version = ${version}`)
 }

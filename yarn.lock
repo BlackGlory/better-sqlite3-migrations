@@ -1816,7 +1816,7 @@ extra-timers@^0.2.5, extra-timers@^0.2.6:
   dependencies:
     extra-rand "^0.1.1"
 
-extra-utils@^5.1.0, extra-utils@^5.1.1, extra-utils@^5.16.0, extra-utils@^5.2.0, extra-utils@^5.4.0, extra-utils@^5.6.0:
+extra-utils@^5.1.0, extra-utils@^5.1.1, extra-utils@^5.16.0, extra-utils@^5.2.0, extra-utils@^5.20.0, extra-utils@^5.4.0, extra-utils@^5.6.0:
   version "5.20.0"
   resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-5.20.0.tgz#ae1b2cba863700933b7ce3bd013b73915f9c1841"
   integrity sha512-cZm0kiCeOT05fXYHctD1mFYmaSkPtGFEmvuG0Fa+WfhMH8u6jle8pvGcjU10I3wW91dnV36nJKWum8QLDTwhOQ==

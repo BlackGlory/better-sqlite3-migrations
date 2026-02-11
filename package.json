@@ -49,6 +49,7 @@
     "eslint": "^10.0.0",
     "husky": "4",
     "npm-run-all": "^4.1.5",
+    "return-style": "^3.0.1",
     "rimraf": "^6.1.2",
     "standard-version": "^9.5.0",
     "ts-patch": "^3.3.0",
@@ -61,7 +62,8 @@
   },
   "dependencies": {
     "@blackglory/prelude": "^0.4.0",
-    "extra-lazy": "^2.0.2"
+    "extra-lazy": "^2.0.2",
+    "extra-utils": "^5.20.0"
   },
   "peerDependencies": {
     "better-sqlite3": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0"
