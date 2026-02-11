@@ -1,6 +1,5 @@
 import type { Database } from 'better-sqlite3'
-import { isFunction } from '@blackglory/types'
-import { assert } from '@blackglory/errors'
+import { assert, isFunction } from '@blackglory/prelude'
 import { withLazyStatic, lazyStatic } from 'extra-lazy'
 
 export interface IMigration {

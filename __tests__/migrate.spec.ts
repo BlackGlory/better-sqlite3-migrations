@@ -1,6 +1,7 @@
-import Database = require('better-sqlite3')
+import { describe, test, it, expect } from 'vitest'
+import Database from 'better-sqlite3'
 import type { Database as IDatabase } from 'better-sqlite3'
-import { migrate, IMigration } from '@src/migrate'
+import { migrate, IMigration } from '@src/migrate.js'
 
 const migrations: IMigration[] = [
   {
@@ -54,7 +55,7 @@ const migrations: IMigration[] = [
 
 describe('migrate(db: Database, migrations: Migration[], targetVersion: number): void', () => {
   describe('The maximum version of migrations < user_version', () => {
-    it('skip migrations', () => {
+    it('skips migrations', () => {
       const db = new Database(':memory:')
       setDatabaseVersion(db, 999)
 
@@ -65,46 +66,42 @@ describe('migrate(db: Database, migrations: Migration[], targetVersion: number):
     })
   })
 
-  describe('upgrade', () => {
-    it('upgrade', () => {
-      const db = new Database(':memory:')
+  test('upgrade', () => {
+    const db = new Database(':memory:')
 
-      const versionBefore = getDatabaseVersion(db)
-      migrate(db, migrations, 2)
-      const versionAfter = getDatabaseVersion(db)
-      const tables = getDatabaseTables(db)
-      const schema = getTableSchema(db, 'test')
+    const versionBefore = getDatabaseVersion(db)
+    migrate(db, migrations, 2)
+    const versionAfter = getDatabaseVersion(db)
+    const tables = getDatabaseTables(db)
+    const schema = getTableSchema(db, 'test')
 
-      expect(versionBefore).toBe(0)
-      expect(versionAfter).toBe(2)
-      expect(tables).toEqual(['test'])
-      expect(schema).toMatchObject([
-        {
-          name: 'id'
-        , type: 'INTEGER'
-        }
-      , {
-          name: 'name'
-        , type: 'TEXT'
-        }
-      ])
-    })
+    expect(versionBefore).toBe(0)
+    expect(versionAfter).toBe(2)
+    expect(tables).toEqual(['test'])
+    expect(schema).toMatchObject([
+      {
+        name: 'id'
+      , type: 'INTEGER'
+      }
+    , {
+        name: 'name'
+      , type: 'TEXT'
+      }
+    ])
   })
 
-  describe('downgrade', () => {
-    it('downgrade', () => {
-      const db = new Database(':memory:')
-      migrate(db, migrations, 2)
+  test('downgrade', () => {
+    const db = new Database(':memory:')
+    migrate(db, migrations, 2)
 
-      const versionBefore = getDatabaseVersion(db)
-      migrate(db, migrations, 0)
-      const versionAfter = getDatabaseVersion(db)
-      const tables = getDatabaseTables(db)
+    const versionBefore = getDatabaseVersion(db)
+    migrate(db, migrations, 0)
+    const versionAfter = getDatabaseVersion(db)
+    const tables = getDatabaseTables(db)
 
-      expect(versionBefore).toBe(2)
-      expect(versionAfter).toBe(0)
-      expect(tables).toEqual([])
-    })
+    expect(versionBefore).toBe(2)
+    expect(versionAfter).toBe(0)
+    expect(tables).toEqual([])
   })
 })
 

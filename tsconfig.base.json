@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
-    "target": "ES2019"
-  , "module": "CommonJS"
+    "target": "ES2018"
+  , "module": "NodeNext"
+  , "moduleResolution": "NodeNext"
   , "strict": true
   , "noUnusedLocals": true
   , "noUnusedParameters": true
@@ -10,5 +11,15 @@
       "@src/*": ["src/*"]
     , "@test/*": ["__tests__/*"]
     }
+  , "plugins" : [
+      {
+        "transform": "typescript-transform-paths"
+      , "exclude" : ["**/node_modules/**"]
+      }
+    , {
+        "transform": "typescript-transform-paths", "afterDeclarations": true
+      , "exclude" : ["**/node_modules/**"]
+      }
+    ]
   }
 }
