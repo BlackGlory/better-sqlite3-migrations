@@ -107,7 +107,7 @@ export const migrate: (
 function getMaximumVersion(migrations: IMigration[]): number {
   return migrations
     .map(x => x.version)
-    .reduce(max)
+    .reduce(max, 0)
 }
 
 const getDatabaseVersion = withLazyStatic((db: Database): number => {

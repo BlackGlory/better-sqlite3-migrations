@@ -121,6 +121,17 @@ describe('migrate', () => {
     const tables = getDatabaseTables(db)
     expect(tables).toEqual([])
   })
+
+  test('edge: empty migrations', () => {
+    const db = new Database(':memory:')
+
+    const versionBefore = getDatabaseVersion(db)
+    migrate(db, [])
+    const versionAfter = getDatabaseVersion(db)
+
+    expect(versionBefore).toBe(0)
+    expect(versionAfter).toBe(0)
+  })
 })
 
 function setDatabaseVersion(db: IDatabase, version: number): void {
