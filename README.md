@@ -16,7 +16,9 @@ yarn add @blackglory/better-sqlite3-migrations
 ## API
 ```ts
 interface IMigration {
+  // An integer starting from 1
   version: number
+
   up: string | ((db: Database) => void)
   down: string | ((db: Database) => void)
 }
