@@ -43,9 +43,9 @@
     "@commitlint/cli": "^20.4.1",
     "@commitlint/config-conventional": "^20.4.1",
     "@eslint/js": "^10.0.1",
-    "@types/better-sqlite3": "^7.6.13",
+    "@types/better-sqlite3": "^9.6.0",
     "@types/node": "22",
-    "better-sqlite3": "^12.6.2",
+    "better-sqlite3": "^13.0.3",
     "eslint": "^10.0.0",
     "husky": "4",
     "npm-run-all": "^4.1.5",
@@ -66,6 +66,6 @@
     "extra-utils": "^6.2.0"
   },
   "peerDependencies": {
-    "better-sqlite3": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0"
+    "better-sqlite3": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0"
   }
 }
