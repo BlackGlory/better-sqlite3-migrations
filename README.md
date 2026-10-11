@@ -9,8 +9,6 @@ The module using [user_version] to record the schema version.
 ## Install
 ```sh
 npm install --save @blackglory/better-sqlite3-migrations
-# or
-yarn add @blackglory/better-sqlite3-migrations
 ```
 
 ## API

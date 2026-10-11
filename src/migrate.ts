@@ -67,7 +67,7 @@ export const migrate: (
     assert(migration, `Cannot find a migration for version ${targetVersion}.`)
 
     try {
-      if (isFunction(migration.up)) {
+      if (isFunction<(db: Database) => void>(migration.up)) {
         migration.up(db)
       } else {
         db.exec(migration.up)
@@ -89,7 +89,7 @@ export const migrate: (
     assert(migration, `Cannot find a migration for version ${currentVersion}.`)
 
     try {
-      if (isFunction(migration.down)) {
+      if (isFunction<(db: Database) => void>(migration.down)) {
         migration.down(db)
       } else {
         db.exec(migration.down)
